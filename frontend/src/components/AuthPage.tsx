@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-// Frontend calls /api/...; Vite proxy forwards to http://localhost:3001
+// Frontend calls /api/...; Vite proxy forwards to backend
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
 });
@@ -42,7 +42,7 @@ function AuthPage({ onAuthSuccess }: Props) {
   });
 
   const authMutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: RegisterForm | LoginForm) => {
       const url = mode === 'login' ? '/auth/login' : '/auth/register';
       const res = await api.post<AuthResponse>(url, data);
       return res.data;
@@ -52,7 +52,7 @@ function AuthPage({ onAuthSuccess }: Props) {
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: RegisterForm | LoginForm) => {
     authMutation.mutate(data);
   };
 
@@ -68,9 +68,9 @@ function AuthPage({ onAuthSuccess }: Props) {
             <label className="block text-sm mb-1">Name</label>
             <input
               className="w-full rounded border border-slate-600 bg-slate-900 px-3 py-2 text-sm"
-              {...register('name' as any)}
+              {...register('name' as const)}
             />
-            {errors.name && (
+            {mode === 'register' && 'name' in errors && errors.name && (
               <p className="mt-1 text-xs text-red-400">
                 {errors.name.message as string}
               </p>
@@ -83,9 +83,9 @@ function AuthPage({ onAuthSuccess }: Props) {
           <input
             type="email"
             className="w-full rounded border border-slate-600 bg-slate-900 px-3 py-2 text-sm"
-            {...register('email' as any)}
+            {...register('email' as const)}
           />
-          {errors.email && (
+          {'email' in errors && errors.email && (
             <p className="mt-1 text-xs text-red-400">
               {errors.email.message as string}
             </p>
@@ -97,9 +97,9 @@ function AuthPage({ onAuthSuccess }: Props) {
           <input
             type="password"
             className="w-full rounded border border-slate-600 bg-slate-900 px-3 py-2 text-sm"
-            {...register('password' as any)}
+            {...register('password' as const)}
           />
-          {errors.password && (
+          {'password' in errors && errors.password && (
             <p className="mt-1 text-xs text-red-400">
               {errors.password.message as string}
             </p>
