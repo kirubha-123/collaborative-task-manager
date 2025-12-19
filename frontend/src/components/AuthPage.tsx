@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 
 // Frontend calls /api/...; Vite proxy forwards to http://localhost:3001
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
 });
 
 const registerSchema = z.object({
