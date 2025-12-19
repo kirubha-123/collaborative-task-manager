@@ -245,10 +245,10 @@ function Dashboard({ token, userId, onLogout }: Props) {
             <div className="md:col-span-2">
               <button
                 type="submit"
-                disabled={createTaskMutation.isLoading}
+                disabled={createTaskMutation.isPending}
                 className="w-full md:w-auto px-4 py-2 rounded bg-indigo-500 hover:bg-indigo-600 text-sm font-medium disabled:opacity-60"
               >
-                {createTaskMutation.isLoading ? 'Creating...' : 'Create task'}
+                {createTaskMutation.isPending ? 'Creating...' : 'Create task'}
               </button>
             </div>
           </form>
