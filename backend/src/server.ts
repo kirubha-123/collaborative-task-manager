@@ -7,8 +7,18 @@ import app from './app';
 
 dotenv.config();
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://collaborative-task-manager-5dpv-pqhix9sf7.vercel.app', // Vercel URL
+];
+
+// if you still want to keep CLIENT_ORIGIN from .env:
+if (process.env.CLIENT_ORIGIN) {
+  allowedOrigins.push(process.env.CLIENT_ORIGIN);
+}
+
 const corsOptions = {
-  origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true,
 };
 
