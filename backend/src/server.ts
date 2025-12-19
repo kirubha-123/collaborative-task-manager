@@ -7,12 +7,13 @@ import app from './app';
 
 dotenv.config();
 
+// 1) List of allowed origins
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://collaborative-task-manager-5dpv-pqhix9sf7.vercel.app', // Vercel URL
+  'https://collaborative-task-manager-5dpv-pqhix9sf7.vercel.app',
 ];
 
-// if you still want to keep CLIENT_ORIGIN from .env:
+// 2) Optional: also allow CLIENT_ORIGIN from .env if present
 if (process.env.CLIENT_ORIGIN) {
   allowedOrigins.push(process.env.CLIENT_ORIGIN);
 }
@@ -22,6 +23,7 @@ const corsOptions = {
   credentials: true,
 };
 
+// 3) Use the same options for Express and Socket.IO
 app.use(cors(corsOptions));
 
 const server = http.createServer(app);
