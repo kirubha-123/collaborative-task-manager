@@ -115,10 +115,10 @@ function AuthPage({ onAuthSuccess }: Props) {
 
         <button
           type="submit"
-          disabled={authMutation.isLoading}
+          disabled={authMutation.isPending}
           className="w-full rounded bg-indigo-500 py-2 text-sm font-medium hover:bg-indigo-600 disabled:opacity-60"
         >
-          {authMutation.isLoading
+          {authMutation.isPending
             ? 'Please wait...'
             : mode === 'login'
             ? 'Login'
